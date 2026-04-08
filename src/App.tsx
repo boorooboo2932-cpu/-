@@ -757,7 +757,7 @@ export default function App() {
                         className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/800/600?grayscale';
+                          (e.target as HTMLImageElement).style.display = 'none';
                         }}
                       />
                     ) : (
@@ -954,7 +954,7 @@ export default function App() {
                         className="w-full h-auto object-contain" 
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = `https://picsum.photos/seed/gallery-${idx}/1200/800?grayscale`;
+                          (e.target as HTMLImageElement).style.display = 'none';
                         }}
                       />
                     </div>
