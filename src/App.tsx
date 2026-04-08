@@ -851,6 +851,9 @@ export default function App() {
                         alt={`${selectedProject.title} ${idx + 1}`} 
                         className="w-full h-auto object-contain" 
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://picsum.photos/seed/gallery-${idx}/1200/800?grayscale`;
+                        }}
                       />
                     </div>
                   ))}
