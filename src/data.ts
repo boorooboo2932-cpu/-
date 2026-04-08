@@ -20,10 +20,6 @@ export interface PortfolioItem {
   description: string;
   image: string; // Thumbnail
   images: string[]; // Gallery images
-  problem: string;
-  strategy: string;
-  process: string;
-  result: string;
   tags: string[];
   link?: string;
 }
@@ -48,10 +44,6 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
       'https://picsum.photos/seed/skincare2/1200/800',
       'https://picsum.photos/seed/skincare3/1200/800'
     ],
-    problem: 'Existing packaging felt generic and failed to convey premium value.',
-    strategy: 'Minimalist typography with earth-tone palettes to emphasize organic luxury.',
-    process: 'Market research -> Moodboard -> Logo Design -> Package Prototyping.',
-    result: 'Brand perception increased, leading to a 25% price premium acceptance.',
     tags: ['Branding', 'Package', 'Logo']
   },
   {
@@ -64,10 +56,6 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
       'https://picsum.photos/seed/tech1/1200/800',
       'https://picsum.photos/seed/tech2/1200/800'
     ],
-    problem: 'Product click-through rate was high, but conversion was low due to poor information hierarchy.',
-    strategy: 'Implemented a "Benefit-First" structure with clear visual cues and social proof.',
-    process: 'UX Audit -> Wireframing -> Visual Design -> A/B Testing.',
-    result: 'Conversion rate increased by 40% within the first month.',
     tags: ['Detail Page', 'UI/UX', 'Commerce']
   },
   {
@@ -81,10 +69,6 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
       'https://picsum.photos/seed/industrial2/1200/800',
       'https://picsum.photos/seed/industrial3/1200/800'
     ],
-    problem: 'The company looked outdated compared to global competitors.',
-    strategy: 'Bold, geometric logo and a "Deep Green" primary color to signal stability and innovation.',
-    process: 'Stakeholder interviews -> Competitive analysis -> Identity system design.',
-    result: 'Successfully secured three major B2B contracts post-rebranding.',
     tags: ['Corporate', 'B2B', 'Industrial']
   }
 ];

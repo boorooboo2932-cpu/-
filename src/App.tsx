@@ -314,10 +314,6 @@ export default function App() {
       description: '',
       image: '',
       images: [],
-      problem: '',
-      strategy: '',
-      process: '',
-      result: '',
       tags: [],
       link: ''
     };
@@ -456,14 +452,20 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-zinc-400 mb-2">Gallery Images</label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <label className="block text-sm text-zinc-400 mb-2">Gallery Images (Image URLs)</label>
+                  <div className="space-y-3 mb-4">
                     {editingProject.images?.map((img, idx) => (
-                      <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/10 bg-zinc-800 group">
-                        <img 
-                          src={img} 
-                          alt={`Gallery ${idx + 1}`} 
-                          className="w-full h-full object-cover"
+                      <div key={idx} className="flex gap-2">
+                        <input 
+                          type="text" 
+                          value={img}
+                          onChange={(e) => {
+                            const newImages = [...(editingProject.images || [])];
+                            newImages[idx] = e.target.value;
+                            setEditingProject({...editingProject, images: newImages});
+                          }}
+                          className="flex-1 bg-zinc-800 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-brand"
+                          placeholder="https://example.com/image.jpg"
                         />
                         <button 
                           type="button"
@@ -471,82 +473,45 @@ export default function App() {
                             const newImages = editingProject.images?.filter((_, i) => i !== idx);
                             setEditingProject({...editingProject, images: newImages});
                           }}
-                          className="absolute inset-0 bg-red-500/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                          className="p-2 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors"
                         >
                           <Trash2 size={20} />
                         </button>
                       </div>
                     ))}
-                    <label className="flex flex-col items-center justify-center aspect-video border-2 border-dashed border-white/10 rounded-xl cursor-pointer bg-zinc-800 hover:bg-zinc-700 transition-colors">
-                      <div className="flex flex-col items-center justify-center">
-                        <Plus className="w-6 h-6 text-zinc-500 mb-1" />
-                        <p className="text-xs text-zinc-500">Add Image</p>
-                      </div>
-                      <input 
-                        type="file" 
-                        className="hidden" 
-                        accept="image/*"
-                        multiple
-                        onChange={(e) => {
-                          const files = Array.from(e.target.files || []) as File[];
-                          files.forEach(file => {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setEditingProject(prev => {
-                                if (!prev) return prev;
-                                return {
-                                  ...prev,
-                                  images: [...(prev.images || []), reader.result as string]
-                                };
-                              });
-                            };
-                            reader.readAsDataURL(file);
-                          });
-                        }}
-                      />
-                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingProject({
+                          ...editingProject,
+                          images: [...(editingProject.images || []), '']
+                        });
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl hover:bg-zinc-700 transition-colors text-sm w-full justify-center border border-dashed border-white/20"
+                    >
+                      <Plus size={16} /> Add Image URL
+                    </button>
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm text-zinc-400 mb-2">Problem</label>
-                  <textarea 
-                    value={editingProject.problem}
-                    onChange={(e) => setEditingProject({...editingProject, problem: e.target.value})}
-                    className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm text-zinc-400 mb-2">Strategy</label>
-                  <textarea 
-                    value={editingProject.strategy}
-                    onChange={(e) => setEditingProject({...editingProject, strategy: e.target.value})}
-                    className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
-                    required
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm text-zinc-400 mb-2">Process</label>
-                    <textarea 
-                      value={editingProject.process}
-                      onChange={(e) => setEditingProject({...editingProject, process: e.target.value})}
-                      className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-zinc-400 mb-2">Result</label>
-                    <textarea 
-                      value={editingProject.result}
-                      onChange={(e) => setEditingProject({...editingProject, result: e.target.value})}
-                      className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
-                      required
-                    />
-                  </div>
+                  
+                  {/* Image Previews */}
+                  {editingProject.images && editingProject.images.some(img => img.trim() !== '') && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                      {editingProject.images.map((img, idx) => (
+                        img.trim() !== '' && (
+                          <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/10 bg-zinc-800 group">
+                            <img 
+                              src={img} 
+                              alt={`Gallery Preview ${idx + 1}`} 
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                          </div>
+                        )
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <button type="submit" className="w-full bg-brand text-zinc-950 font-bold py-4 rounded-xl hover:bg-brand-dark transition-colors">
@@ -959,37 +924,6 @@ export default function App() {
                       />
                     </div>
                   ))}
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-12">
-                  <div className="space-y-12">
-                    <div>
-                      <h3 className="text-brand font-bold uppercase tracking-widest text-sm mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-brand" /> Problem
-                      </h3>
-                      <p className="text-xl text-zinc-300 leading-relaxed">{selectedProject.problem}</p>
-                    </div>
-                    <div>
-                      <h3 className="text-brand font-bold uppercase tracking-widest text-sm mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-brand" /> Concept & Strategy
-                      </h3>
-                      <p className="text-xl text-zinc-300 leading-relaxed">{selectedProject.strategy}</p>
-                    </div>
-                  </div>
-                  <div className="space-y-12">
-                    <div>
-                      <h3 className="text-brand font-bold uppercase tracking-widest text-sm mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-brand" /> Process
-                      </h3>
-                      <p className="text-xl text-zinc-300 leading-relaxed">{selectedProject.process}</p>
-                    </div>
-                    <div className="p-8 rounded-3xl bg-brand text-zinc-950">
-                      <h3 className="font-bold uppercase tracking-widest text-xs mb-4 flex items-center gap-2 opacity-60">
-                        Result
-                      </h3>
-                      <p className="text-2xl font-bold leading-tight">{selectedProject.result}</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
