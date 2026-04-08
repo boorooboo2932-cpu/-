@@ -266,7 +266,8 @@ export default function App() {
 
       const savedContent = localStorage.getItem('site_content');
       if (savedContent) {
-        setContent(JSON.parse(savedContent));
+        const parsed = JSON.parse(savedContent);
+        setContent({ ...DEFAULT_CONTENT, ...parsed });
       }
     } catch (e) {
       console.error('Failed to load data from localStorage:', e);
