@@ -234,33 +234,50 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
 
   useEffect(() => {
-    const savedPortfolio = localStorage.getItem('portfolio_data');
-    if (savedPortfolio) {
-      const parsed = JSON.parse(savedPortfolio);
-      // Data migration: ensure all projects have an images array
-      const migrated = parsed.map((p: any) => ({
-        ...p,
-        images: p.images || [p.image]
-      }));
-      setPortfolio(migrated);
-    } else {
-      setPortfolio(INITIAL_PORTFOLIO);
-    }
+    try {
+      const savedPortfolio = localStorage.getItem('portfolio_data');
+      if (savedPortfolio) {
+        const parsed = JSON.parse(savedPortfolio);
+        // Data migration: ensure all projects have an images array
+        const migrated = parsed.map((p: any) => ({
+          ...p,
+          images: p.images || [p.image]
+        }));
+        setPortfolio(migrated);
+      } else {
+        setPortfolio(INITIAL_PORTFOLIO);
+      }
 
-    const savedContent = localStorage.getItem('site_content');
-    if (savedContent) {
-      setContent(JSON.parse(savedContent));
+      const savedContent = localStorage.getItem('site_content');
+      if (savedContent) {
+        setContent(JSON.parse(savedContent));
+      }
+    } catch (e) {
+      console.error('Failed to load data from localStorage:', e);
+      setPortfolio(INITIAL_PORTFOLIO);
+      setContent(DEFAULT_CONTENT);
     }
   }, []);
 
   const savePortfolio = (newData: PortfolioItem[]) => {
-    setPortfolio(newData);
-    localStorage.setItem('portfolio_data', JSON.stringify(newData));
+    try {
+      setPortfolio(newData);
+      localStorage.setItem('portfolio_data', JSON.stringify(newData));
+    } catch (e) {
+      console.error('Failed to save portfolio:', e);
+      if (e instanceof Error && e.name === 'QuotaExceededError') {
+        alert('저장 공간이 부족합니다. 이미지 용량을 줄이거나 일부 항목을 삭제해주세요.');
+      }
+    }
   };
 
   const saveContent = (newContent: SiteContent) => {
-    setContent(newContent);
-    localStorage.setItem('site_content', JSON.stringify(newContent));
+    try {
+      setContent(newContent);
+      localStorage.setItem('site_content', JSON.stringify(newContent));
+    } catch (e) {
+      console.error('Failed to save content:', e);
+    }
   };
 
   const filteredPortfolio = activeCategory === '전체' 
@@ -360,29 +377,45 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-zinc-400 mb-2">Thumbnail Image URL</label>
+                  <label className="block text-sm text-zinc-400 mb-2">Thumbnail Image</label>
                   <div className="flex gap-4 items-start">
                     <div className="flex-1">
-                      <input 
-                        type="text" 
-                        value={editingProject.image}
-                        onChange={(e) => setEditingProject({...editingProject, image: e.target.value})}
-                        className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand"
-                        placeholder="https://example.com/image.jpg"
-                        required
-                      />
+                      <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-white/10 rounded-xl cursor-pointer bg-zinc-800 hover:bg-zinc-700 transition-colors">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Plus className="w-8 h-8 text-zinc-500 mb-2" />
+                          <p className="text-sm text-zinc-500">Click to upload thumbnail</p>
+                        </div>
+                        <input 
+                          type="file" 
+                          className="hidden" 
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setEditingProject({...editingProject, image: reader.result as string});
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </label>
                     </div>
                     {editingProject.image && (
-                      <div className="w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-zinc-800 shrink-0">
+                      <div className="w-32 h-32 rounded-xl overflow-hidden border border-white/10 bg-zinc-800 shrink-0 relative group">
                         <img 
                           src={editingProject.image} 
                           alt="Preview" 
                           className="w-full h-full object-cover"
-                          referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/200/200?grayscale';
-                          }}
                         />
+                        <button 
+                          type="button"
+                          onClick={() => setEditingProject({...editingProject, image: ''})}
+                          className="absolute inset-0 bg-red-500/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                        >
+                          <Trash2 size={24} />
+                        </button>
                       </div>
                     )}
                   </div>
@@ -390,59 +423,54 @@ export default function App() {
 
                 <div>
                   <label className="block text-sm text-zinc-400 mb-2">Gallery Images</label>
-                  <div className="space-y-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {editingProject.images?.map((img, idx) => (
-                      <div key={idx} className="space-y-2">
-                        <div className="flex gap-2">
-                          <input 
-                            type="text" 
-                            value={img}
-                            onChange={(e) => {
-                              const newImages = [...(editingProject.images || [])];
-                              newImages[idx] = e.target.value;
-                              setEditingProject({...editingProject, images: newImages});
-                            }}
-                            placeholder={`Image URL ${idx + 1}`}
-                            className="flex-1 bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand"
-                          />
-                          <button 
-                            type="button"
-                            onClick={() => {
-                              const newImages = editingProject.images?.filter((_, i) => i !== idx);
-                              setEditingProject({...editingProject, images: newImages});
-                            }}
-                            className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all"
-                          >
-                            <Trash2 size={20} />
-                          </button>
-                        </div>
-                        {img && (
-                          <div className="w-full h-32 rounded-xl overflow-hidden border border-white/10 bg-zinc-800">
-                            <img 
-                              src={img} 
-                              alt={`Preview ${idx + 1}`} 
-                              className="w-full h-full object-contain"
-                              referrerPolicy="no-referrer"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/400/200?grayscale';
-                              }}
-                            />
-                          </div>
-                        )}
+                      <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/10 bg-zinc-800 group">
+                        <img 
+                          src={img} 
+                          alt={`Gallery ${idx + 1}`} 
+                          className="w-full h-full object-cover"
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            const newImages = editingProject.images?.filter((_, i) => i !== idx);
+                            setEditingProject({...editingProject, images: newImages});
+                          }}
+                          className="absolute inset-0 bg-red-500/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                        >
+                          <Trash2 size={20} />
+                        </button>
                       </div>
                     ))}
-                    <button 
-                      type="button"
-                      onClick={() => {
-                        setEditingProject({
-                          ...editingProject, 
-                          images: [...(editingProject.images || []), '']
-                        });
-                      }}
-                      className="w-full py-3 border border-dashed border-white/20 rounded-xl text-zinc-500 hover:text-white hover:border-white/40 transition-all flex items-center justify-center gap-2"
-                    >
-                      <Plus size={18} /> Add Gallery Image
-                    </button>
+                    <label className="flex flex-col items-center justify-center aspect-video border-2 border-dashed border-white/10 rounded-xl cursor-pointer bg-zinc-800 hover:bg-zinc-700 transition-colors">
+                      <div className="flex flex-col items-center justify-center">
+                        <Plus className="w-6 h-6 text-zinc-500 mb-1" />
+                        <p className="text-xs text-zinc-500">Add Image</p>
+                      </div>
+                      <input 
+                        type="file" 
+                        className="hidden" 
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []) as File[];
+                          files.forEach(file => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setEditingProject(prev => {
+                                if (!prev) return prev;
+                                return {
+                                  ...prev,
+                                  images: [...(prev.images || []), reader.result as string]
+                                };
+                              });
+                            };
+                            reader.readAsDataURL(file);
+                          });
+                        }}
+                      />
+                    </label>
                   </div>
                 </div>
 
@@ -511,7 +539,7 @@ export default function App() {
           >
             <span className="text-brand font-mono text-sm tracking-[0.3em] uppercase mb-4 block">HONG HEE SUN</span>
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold tracking-tighter mb-6 leading-[0.9]">
-              {content.heroTitle?.split(' ').map((word, i) => (
+              {(content.heroTitle || DEFAULT_CONTENT.heroTitle).split(' ').map((word, i) => (
                 word.toLowerCase() === 'sells.' ? <span key={i} className="text-brand">{word} </span> : word + ' '
               ))}
             </h1>
