@@ -237,16 +237,14 @@ export default function App() {
     const savedPortfolio = localStorage.getItem('portfolio_data');
     if (savedPortfolio) {
       const parsed = JSON.parse(savedPortfolio);
-      // Data migration: ensure all projects have an images array and remove "New Project"
-      const migrated = parsed
-        .filter((p: any) => p.title !== 'New Project')
-        .map((p: any) => ({
-          ...p,
-          images: p.images || [p.image]
-        }));
+      // Data migration: ensure all projects have an images array
+      const migrated = parsed.map((p: any) => ({
+        ...p,
+        images: p.images || [p.image]
+      }));
       setPortfolio(migrated);
     } else {
-      setPortfolio(INITIAL_PORTFOLIO.filter(p => p.title !== 'New Project'));
+      setPortfolio(INITIAL_PORTFOLIO);
     }
 
     const savedContent = localStorage.getItem('site_content');
@@ -667,6 +665,9 @@ export default function App() {
                         alt={project.title} 
                         className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/error/800/600?grayscale';
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-zinc-700">
