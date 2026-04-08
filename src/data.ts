@@ -112,7 +112,7 @@ export const EXPERIENCES: Experience[] = [
 export const AWARDS = [
   {
     year: '2014',
-    title: '서울시 여성 창업공업대전 동상 수상',
+    title: '서울시 여성창업 공예대전 동상 수상',
     organization: '서울시'
   },
   {
