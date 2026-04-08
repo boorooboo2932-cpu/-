@@ -299,11 +299,17 @@ export default function App() {
     e.preventDefault();
     if (!editingProject) return;
     
-    const exists = portfolio.find(p => p.id === editingProject.id);
+    // Filter out empty strings from images array
+    const cleanedProject = {
+      ...editingProject,
+      images: editingProject.images?.filter(img => img && img.trim() !== '') || []
+    };
+    
+    const exists = portfolio.find(p => p.id === cleanedProject.id);
     if (exists) {
-      savePortfolio(portfolio.map(p => p.id === editingProject.id ? editingProject : p));
+      savePortfolio(portfolio.map(p => p.id === cleanedProject.id ? cleanedProject : p));
     } else {
-      savePortfolio([...portfolio, editingProject]);
+      savePortfolio([...portfolio, cleanedProject]);
     }
     setEditingProject(null);
   };
@@ -844,7 +850,7 @@ export default function App() {
                 
                 {/* Image Gallery */}
                 <div className="space-y-6 mb-12">
-                  {selectedProject.images?.map((img, idx) => (
+                  {selectedProject.images?.filter(img => img && img.trim() !== '').map((img, idx) => (
                     <div key={idx} className="rounded-[2rem] overflow-hidden bg-zinc-900">
                       <img 
                         src={img} 
@@ -1022,6 +1028,17 @@ export default function App() {
       {/* Admin Floating Indicator */}
       {isAdmin && (
         <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-2 items-end">
+          <button 
+            onClick={() => {
+              if (window.confirm('모든 데이터를 초기 상태로 되돌리시겠습니까? 커스텀한 데이터가 모두 삭제됩니다.')) {
+                localStorage.clear();
+                window.location.reload();
+              }
+            }}
+            className="bg-red-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl flex items-center gap-2 hover:bg-red-600 transition-colors"
+          >
+            <Trash2 size={18} /> Reset Data
+          </button>
           <button 
             onClick={() => setIsContentEditOpen(true)}
             className="bg-white text-zinc-950 px-6 py-3 rounded-full font-bold shadow-2xl flex items-center gap-2 hover:bg-zinc-200 transition-colors"
