@@ -25,6 +25,7 @@ export interface PortfolioItem {
   process: string;
   result: string;
   tags: string[];
+  link?: string;
 }
 
 export interface Experience {

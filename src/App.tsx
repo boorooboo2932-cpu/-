@@ -45,6 +45,14 @@ interface SiteContent {
   portfolioTitle: string;
   experienceTitle: string;
   awardsTitle: string;
+  link1Title: string;
+  link1Url: string;
+  link2Title: string;
+  link2Url: string;
+  link3Title: string;
+  link3Url: string;
+  link4Title: string;
+  link4Url: string;
 }
 
 const DEFAULT_CONTENT: SiteContent = {
@@ -60,7 +68,15 @@ const DEFAULT_CONTENT: SiteContent = {
   skillTitle: "결과 중심 스킬",
   portfolioTitle: "Selected Works",
   experienceTitle: "Experience",
-  awardsTitle: "Awards & Honors"
+  awardsTitle: "Awards & Honors",
+  link1Title: "웹사이트 1",
+  link1Url: "",
+  link2Title: "웹사이트 2",
+  link2Url: "",
+  link3Title: "웹사이트 3",
+  link3Url: "",
+  link4Title: "웹사이트 4",
+  link4Url: ""
 };
 
 // --- Components ---
@@ -301,7 +317,8 @@ export default function App() {
       strategy: '',
       process: '',
       result: '',
-      tags: []
+      tags: [],
+      link: ''
     };
     setEditingProject(newProject);
   };
@@ -373,6 +390,22 @@ export default function App() {
                       <option value="인쇄·패키지 디자인">인쇄·패키지 디자인</option>
                       <option value="vmd·dp">vmd·dp</option>
                     </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm text-zinc-400 mb-2">Website Link (Optional)</label>
+                  <div className="flex gap-2">
+                    <div className="bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 flex items-center text-zinc-500">
+                      <ExternalLink size={18} />
+                    </div>
+                    <input 
+                      type="text" 
+                      value={editingProject.link || ''}
+                      onChange={(e) => setEditingProject({...editingProject, link: e.target.value})}
+                      className="flex-1 bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand"
+                      placeholder="https://example.com"
+                    />
                   </div>
                 </div>
 
@@ -667,6 +700,29 @@ export default function App() {
             </div>
           </div>
 
+          {/* Website Quick Links */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            {[
+              { title: content.link1Title, url: content.link1Url },
+              { title: content.link2Title, url: content.link2Url },
+              { title: content.link3Title, url: content.link3Url },
+              { title: content.link4Title, url: content.link4Url },
+            ].map((link, i) => (
+              link.title && (
+                <a
+                  key={i}
+                  href={link.url || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-4 bg-zinc-900 border border-white/5 rounded-2xl text-zinc-300 hover:bg-brand hover:text-zinc-950 hover:border-brand transition-all group"
+                >
+                  <span className="font-bold truncate">{link.title}</span>
+                  <ExternalLink size={16} className="shrink-0 opacity-50 group-hover:opacity-100" />
+                </a>
+              )
+            ))}
+          </div>
+
           {isAdmin && (
             <div className="mb-8 flex justify-end">
               <button 
@@ -876,6 +932,17 @@ export default function App() {
                 <span className="text-brand font-mono text-sm tracking-widest uppercase mb-4 block">{selectedProject.category}</span>
                 <h2 className="text-4xl md:text-6xl font-display font-bold mb-8">{selectedProject.title}</h2>
                 
+                {selectedProject.link && (
+                  <a 
+                    href={selectedProject.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-brand text-zinc-950 font-bold rounded-full hover:bg-brand-dark transition-all mb-12"
+                  >
+                    웹사이트 방문하기 <ExternalLink size={18} />
+                  </a>
+                )}
+
                 {/* Image Gallery */}
                 <div className="space-y-6 mb-12">
                   {selectedProject.images?.filter(img => img && img.trim() !== '').map((img, idx) => (
@@ -1041,6 +1108,31 @@ export default function App() {
                     className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand"
                   />
                 </div>
+
+                <div className="pt-4 border-t border-white/10">
+                  <h4 className="text-sm font-bold text-brand mb-4 uppercase tracking-widest">Portfolio Quick Links</h4>
+                  <div className="space-y-4">
+                    {[1, 2, 3, 4].map((num) => (
+                      <div key={num} className="grid grid-cols-2 gap-2">
+                        <input 
+                          type="text" 
+                          placeholder={`Link ${num} Title`}
+                          value={(content as any)[`link${num}Title`]}
+                          onChange={(e) => setContent({...content, [`link${num}Title`]: e.target.value})}
+                          className="bg-zinc-800 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-brand"
+                        />
+                        <input 
+                          type="text" 
+                          placeholder={`Link ${num} URL`}
+                          value={(content as any)[`link${num}Url`]}
+                          onChange={(e) => setContent({...content, [`link${num}Url`]: e.target.value})}
+                          className="bg-zinc-800 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-brand"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <button 
                   onClick={() => { saveContent(content); setIsContentEditOpen(false); }}
                   className="w-full bg-brand text-zinc-950 font-bold py-4 rounded-xl hover:bg-brand-dark transition-colors"
