@@ -578,8 +578,8 @@ export default function App() {
             >
               <SectionHeading subtitle={content.aboutSubtitle || "About HONG HEE SUN"} title={content.aboutTitle} />
               <div className="space-y-6 text-zinc-400 text-lg leading-relaxed">
-                <p>
-                  단순한 디자인이 아닌, <span className="text-white font-semibold">"{content.aboutText1}"</span>
+                <p className="text-white font-semibold text-xl leading-tight">
+                  {content.aboutText1}
                 </p>
                 <p>
                   {content.aboutText2}
