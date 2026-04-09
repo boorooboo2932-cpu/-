@@ -346,7 +346,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 overflow-x-hidden">
+    <div className="min-h-screen bg-zinc-950 overflow-x-hidden notranslate">
       <Navbar onAdminClick={() => setIsAdminModalOpen(true)} />
       
       {/* Admin Project Form Modal */}
