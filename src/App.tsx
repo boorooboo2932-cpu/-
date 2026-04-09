@@ -896,7 +896,7 @@ export default function App() {
 
               <div className="mb-12">
                 <span className="text-brand font-mono text-sm tracking-widest uppercase mb-4 block">{selectedProject.category}</span>
-                <h2 className="text-4xl md:text-6xl font-display font-bold mb-8">{selectedProject.title}</h2>
+                <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">{selectedProject.title}</h2>
                 
                 {selectedProject.link && (
                   <a 
