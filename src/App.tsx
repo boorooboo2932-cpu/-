@@ -246,7 +246,7 @@ export default function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isContentEditOpen, setIsContentEditOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<'전체' | '웹디자인' | '인쇄·패키지 디자인' | 'vmd·dp'>('전체');
+  const [activeCategory, setActiveCategory] = useState<'All' | 'Content & Marketing' | 'Branding & Package' | 'VMD & Display'>('All');
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
 
   useEffect(() => {
@@ -297,11 +297,11 @@ export default function App() {
     }
   };
 
-  const filteredPortfolio = activeCategory === '전체' 
+  const filteredPortfolio = activeCategory === 'All' 
     ? portfolio 
     : portfolio.filter(item => item.category === activeCategory);
 
-  const categories = ['전체', '웹디자인', '인쇄·패키지 디자인', 'vmd·dp'];
+  const categories = ['All', 'Content & Marketing', 'Branding & Package', 'VMD & Display'];
 
   // Admin Actions
   const [editingProject, setEditingProject] = useState<PortfolioItem | null>(null);
@@ -309,7 +309,7 @@ export default function App() {
   const addProject = () => {
     const newProject: PortfolioItem = {
       id: Date.now().toString(),
-      category: '웹디자인',
+      category: 'Content & Marketing',
       title: '',
       description: '',
       image: '',
@@ -383,9 +383,9 @@ export default function App() {
                       onChange={(e) => setEditingProject({...editingProject, category: e.target.value as any})}
                       className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand"
                     >
-                      <option value="웹디자인">웹디자인</option>
-                      <option value="인쇄·패키지 디자인">인쇄·패키지 디자인</option>
-                      <option value="vmd·dp">vmd·dp</option>
+                      <option value="Content & Marketing">Content & Marketing</option>
+                      <option value="Branding & Package">Branding & Package</option>
+                      <option value="VMD & Display">VMD & Display</option>
                     </select>
                   </div>
                 </div>
@@ -402,6 +402,43 @@ export default function App() {
                       onChange={(e) => setEditingProject({...editingProject, link: e.target.value})}
                       className="flex-1 bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand"
                       placeholder="https://example.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm text-zinc-400 mb-2">Project Overview</label>
+                    <textarea 
+                      value={editingProject.overview || ''}
+                      onChange={(e) => setEditingProject({...editingProject, overview: e.target.value})}
+                      className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-zinc-400 mb-2">Problem</label>
+                    <textarea 
+                      value={editingProject.problem || ''}
+                      onChange={(e) => setEditingProject({...editingProject, problem: e.target.value})}
+                      className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
+                    />
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm text-zinc-400 mb-2">Solution</label>
+                    <textarea 
+                      value={editingProject.solution || ''}
+                      onChange={(e) => setEditingProject({...editingProject, solution: e.target.value})}
+                      className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-zinc-400 mb-2">Result</label>
+                    <textarea 
+                      value={editingProject.result || ''}
+                      onChange={(e) => setEditingProject({...editingProject, result: e.target.value})}
+                      className="w-full bg-zinc-800 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand h-24 resize-none"
                     />
                   </div>
                 </div>
@@ -732,9 +769,10 @@ export default function App() {
                     )}
                     <div className="absolute inset-0 bg-zinc-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
                       <span className="text-brand text-xs font-mono mb-2 uppercase tracking-widest">{project.category}</span>
-                      <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
+                      <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
+                      <p className="text-zinc-300 text-sm mb-4 line-clamp-2">{project.description}</p>
                       <div className="flex items-center gap-2 text-sm font-bold text-white">
-                        View Details <ChevronRight size={16} />
+                        상세보기 <ChevronRight size={16} />
                       </div>
                     </div>
                   </div>
@@ -898,6 +936,46 @@ export default function App() {
                 <span className="text-brand font-mono text-sm tracking-widest uppercase mb-4 block">{selectedProject.category}</span>
                 <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">{selectedProject.title}</h2>
                 
+                {/* Project Info Sections */}
+                <div className="grid md:grid-cols-2 gap-12 mb-20">
+                  <div className="space-y-12">
+                    {selectedProject.overview && (
+                      <div>
+                        <h3 className="text-brand font-mono text-xs tracking-widest uppercase mb-4">Project Overview</h3>
+                        <p className="text-xl text-zinc-300 leading-relaxed font-medium">
+                          {selectedProject.overview}
+                        </p>
+                      </div>
+                    )}
+                    {selectedProject.problem && (
+                      <div>
+                        <h3 className="text-red-400 font-mono text-xs tracking-widest uppercase mb-4">Problem</h3>
+                        <p className="text-zinc-400 leading-relaxed">
+                          {selectedProject.problem}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-12">
+                    {selectedProject.solution && (
+                      <div>
+                        <h3 className="text-blue-400 font-mono text-xs tracking-widest uppercase mb-4">Solution</h3>
+                        <p className="text-zinc-400 leading-relaxed">
+                          {selectedProject.solution}
+                        </p>
+                      </div>
+                    )}
+                    {selectedProject.result && (
+                      <div>
+                        <h3 className="text-brand font-mono text-xs tracking-widest uppercase mb-4">Result</h3>
+                        <p className="text-zinc-400 leading-relaxed">
+                          {selectedProject.result}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Image Gallery */}
                 <div className="space-y-6 mb-12">
                   {selectedProject.images?.filter(img => img && img.trim() !== '').map((img, idx) => (
