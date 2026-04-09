@@ -35,41 +35,53 @@ export interface Experience {
 export const INITIAL_PORTFOLIO: PortfolioItem[] = [
   {
     id: '1',
-    category: '인쇄·패키지 디자인',
-    title: 'Premium Skincare Branding',
-    description: 'High-end aesthetic for a natural skincare line.',
-    image: 'https://picsum.photos/seed/skincare/800/600',
+    category: '웹디자인',
+    title: '(주)하이비코리아 - 유아용품',
+    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다.',
+    image: 'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/d60ecd34f2d6060a09f9aaf730ce0af8f6cb823c/web.jpeg',
     images: [
-      'https://picsum.photos/seed/skincare1/1200/800',
-      'https://picsum.photos/seed/skincare2/1200/800',
-      'https://picsum.photos/seed/skincare3/1200/800'
+      'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/d60ecd34f2d6060a09f9aaf730ce0af8f6cb823c/web.jpeg'
     ],
-    tags: ['Branding', 'Package', 'Logo']
+    tags: ['Event Page', 'Promotion', 'Commerce'],
+    link: 'https://brand.naver.com/hibee'
   },
   {
     id: '2',
     category: '웹디자인',
-    title: 'High-Conversion Detail Page',
-    description: 'Optimized shopping experience for a tech gadget.',
-    image: 'https://picsum.photos/seed/tech/800/600',
+    title: '(주)테라솔루션 - 2차전지',
+    description: '2차전지 전문 기업 테라솔루션의 공식 웹사이트 디자인 및 제작.',
+    image: 'https://picsum.photos/seed/tera/800/600',
     images: [
-      'https://picsum.photos/seed/tech1/1200/800',
-      'https://picsum.photos/seed/tech2/1200/800'
+      'https://picsum.photos/seed/tera1/1200/800',
+      'https://picsum.photos/seed/tera2/1200/800'
     ],
-    tags: ['Detail Page', 'UI/UX', 'Commerce']
+    tags: ['Corporate', 'Responsive', 'B2B'],
+    link: 'https://tera-solution.co.kr/'
   },
   {
     id: '3',
     category: '인쇄·패키지 디자인',
-    title: 'Terra Solution Corporate Identity',
-    description: 'Professional branding for an industrial technology firm.',
-    image: 'https://picsum.photos/seed/industrial/800/600',
+    title: '하하팩토리 - 실사출력',
+    description: '실사출력 전문 하하팩토리의 브랜딩 및 홍보물 디자인.',
+    image: 'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_23.jpg',
     images: [
-      'https://picsum.photos/seed/industrial1/1200/800',
-      'https://picsum.photos/seed/industrial2/1200/800',
-      'https://picsum.photos/seed/industrial3/1200/800'
+      'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_23.jpg'
     ],
-    tags: ['Corporate', 'B2B', 'Industrial']
+    tags: ['Printing', 'Branding', 'Package'],
+    link: 'https://www.hahafactory.co.kr/'
+  },
+  {
+    id: '4',
+    category: '웹디자인',
+    title: '펀아트 - 명화/액자쇼핑몰',
+    description: '명화 및 인테리어 액자 전문 쇼핑몰 펀아트의 웹사이트 리뉴얼 및 디자인.',
+    image: 'https://picsum.photos/seed/funart/800/600',
+    images: [
+      'https://picsum.photos/seed/funart1/1200/800',
+      'https://picsum.photos/seed/funart2/1200/800'
+    ],
+    tags: ['Commerce', 'UI/UX', 'Shopping Mall'],
+    link: 'http://www.funart.co.kr'
   }
 ];
 
@@ -150,7 +162,7 @@ export const SKILLS = [
   },
   {
     title: '웹사이트 디자인',
-    description: '반응형 웹 및 UI/UX',
+    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다.',
     icon: Layout
   }
 ];
