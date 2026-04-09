@@ -37,7 +37,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: '1',
     category: '웹디자인',
     title: '(주)하이비코리아 - 유아용품',
-    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다.',
+    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다',
     image: 'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/d60ecd34f2d6060a09f9aaf730ce0af8f6cb823c/web.jpeg',
     images: [
       'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/d60ecd34f2d6060a09f9aaf730ce0af8f6cb823c/web.jpeg'
@@ -49,7 +49,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: '2',
     category: '웹디자인',
     title: '(주)테라솔루션 - 2차전지',
-    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다.',
+    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다',
     image: 'https://picsum.photos/seed/tera/800/600',
     images: [
       'https://picsum.photos/seed/tera1/1200/800',
@@ -62,10 +62,10 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: '3',
     category: '인쇄·패키지 디자인',
     title: '하하팩토리 - 실사출력',
-    description: '제품의 가치를 시각적으로 전달하는 디자인. 패키지부터 브로슈어까지 브랜드의 첫 인상을 완성합니다.',
-    image: 'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_23.jpg',
+    description: '제품의 가치를 시각적으로 전달하는 디자인. 패키지부터 브로슈어까지 브랜드의 첫 인상을 완성합니다',
+    image: 'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_22.jpg',
     images: [
-      'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_23.jpg'
+      'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_22.jpg'
     ],
     tags: ['Printing', 'Branding', 'Package'],
     link: 'https://www.hahafactory.co.kr/'
@@ -124,7 +124,7 @@ export const AWARDS = [
 export const SKILLS = [
   {
     title: '브랜딩 디자인',
-    description: '로고 / 패키지 / VMD',
+    description: '제품의 가치를 시각적으로 전달하는 디자인. 패키지부터 브로슈어까지 브랜드의 첫 인상을 완성합니다',
     icon: Layers
   },
   {
@@ -149,7 +149,7 @@ export const SKILLS = [
   },
   {
     title: '웹사이트 디자인',
-    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다.',
+    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다',
     icon: Layout
   }
 ];
