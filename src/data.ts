@@ -49,7 +49,7 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: '2',
     category: '웹디자인',
     title: '(주)테라솔루션 - 2차전지',
-    description: '2차전지 전문 기업 테라솔루션의 공식 웹사이트 디자인 및 제작.',
+    description: '사용자의 흐름을 고려한 구조 설계와 전환율을 높이는 UI/UX를 중심으로 실제 운영 가능한 웹 디자인을 수행합니다.',
     image: 'https://picsum.photos/seed/tera/800/600',
     images: [
       'https://picsum.photos/seed/tera1/1200/800',
@@ -62,26 +62,13 @@ export const INITIAL_PORTFOLIO: PortfolioItem[] = [
     id: '3',
     category: '인쇄·패키지 디자인',
     title: '하하팩토리 - 실사출력',
-    description: '실사출력 전문 하하팩토리의 브랜딩 및 홍보물 디자인.',
+    description: '제품의 가치를 시각적으로 전달하는 디자인. 패키지부터 브로슈어까지 브랜드의 첫 인상을 완성합니다.',
     image: 'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_23.jpg',
     images: [
       'https://raw.githubusercontent.com/boorooboo2932-cpu/portfolio-images/be037a90b30f286e6054e6ec477e70ecac43b668/package_23.jpg'
     ],
     tags: ['Printing', 'Branding', 'Package'],
     link: 'https://www.hahafactory.co.kr/'
-  },
-  {
-    id: '4',
-    category: '웹디자인',
-    title: '펀아트 - 명화/액자쇼핑몰',
-    description: '명화 및 인테리어 액자 전문 쇼핑몰 펀아트의 웹사이트 리뉴얼 및 디자인.',
-    image: 'https://picsum.photos/seed/funart/800/600',
-    images: [
-      'https://picsum.photos/seed/funart1/1200/800',
-      'https://picsum.photos/seed/funart2/1200/800'
-    ],
-    tags: ['Commerce', 'UI/UX', 'Shopping Mall'],
-    link: 'http://www.funart.co.kr'
   }
 ];
 

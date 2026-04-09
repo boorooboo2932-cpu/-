@@ -71,12 +71,12 @@ const DEFAULT_CONTENT: SiteContent = {
   awardsTitle: "Awards & Honors",
   link1Title: "(주)하이비코리아 - 유아용품",
   link1Url: "https://brand.naver.com/hibee",
-  link2Title: "웹사이트 2",
-  link2Url: "",
-  link3Title: "웹사이트 3",
-  link3Url: "",
-  link4Title: "웹사이트 4",
-  link4Url: ""
+  link2Title: "(주)테라솔루션-2차전지",
+  link2Url: "https://tera-solution.co.kr",
+  link3Title: "펀아트-명화/액자쇼핑몰",
+  link3Url: "http://www.funart.co.kr",
+  link4Title: "하하팩토리-실사출력",
+  link4Url: "https://www.hahafactory.co.kr/",
 };
 
 // --- Components ---
@@ -898,17 +898,6 @@ export default function App() {
                 <span className="text-brand font-mono text-sm tracking-widest uppercase mb-4 block">{selectedProject.category}</span>
                 <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">{selectedProject.title}</h2>
                 
-                {selectedProject.link && (
-                  <a 
-                    href={selectedProject.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-brand text-zinc-950 font-bold rounded-full hover:bg-brand-dark transition-all mb-12"
-                  >
-                    웹사이트 방문하기 <ExternalLink size={18} />
-                  </a>
-                )}
-
                 {/* Image Gallery */}
                 <div className="space-y-6 mb-12">
                   {selectedProject.images?.filter(img => img && img.trim() !== '').map((img, idx) => (
